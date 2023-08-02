@@ -44,3 +44,36 @@ test('visual',async({page})=>
 
 
 
+test.only ("PyramidCorevalidations",async({page})=>
+{
+    const pcoreUserName =  page.locator("#pydLogin_txtUserid");
+    const pcorePassword =  page.locator("#pydLogin_txtUserPwd");
+    const pcoreLoginButton =  page.locator("#pydLogin_btnLogin");
+    const pcoreHome= page.locator("//a[normalize-space()='Home']");
+    
+    const orgChartLink = page.locator("#PCIMenut1");
+    await page.goto("https://pyramidcore.pyramidci.com/Home/PCIhome.aspx");
+
+
+    await expect (pcoreUserName).toBeVisible();
+    await pcoreUserName.type ("");
+    await pcorePassword.type ("");
+    await pcoreLoginButton.click();
+    await page.waitForLoadState('networkidle');
+    await pcoreHome.click();
+    const leftFrame = page.frameLocator("//frame[@name='contents']");
+    await leftFrame.locator("#PCIMenut1").click();
+    const mainFrame = page.frameLocator("//frame[@name='main']");
+    await mainFrame.locator("#ddlEmployeeList").click();
+    const dropdown = mainFrame.locator("#ddlEmployeeList");
+    await dropdown.selectOption("9134");
+   // await mainFrame.locator("#rbtnUpHierarchy").check();
+    const anotherDropDown = mainFrame.locator("#ddlLevel");
+    await anotherDropDown.selectOption("1");
+    //await page.pause();
+})
+
+
+
+
+
